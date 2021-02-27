@@ -233,7 +233,12 @@
                          (cond
                            [(null? lst) empty]
                            [(equal? (car lst) elem) 'car]
-                           [(list? (car lst)) (cons 'compose (cons (carCdr-resolve elem (car lst)) '(car)))]
+                           [(list? (car lst)) (if
+                                               (zero? contar-ocurrencias elem lst)
+                                               (cons 'compose (cons (carCdr-resolve elem (cdr lst)) '(cdr)))
+                                               (cons 'compose (cons (carCdr-resolve elem (car lst)) '(car)))
+                                               )
+                           ]
                            [else (cons 'compose (cons (carCdr-resolve elem (cdr lst)) '(cdr)))]
                            )
                          )
