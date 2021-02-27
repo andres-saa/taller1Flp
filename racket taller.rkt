@@ -199,10 +199,16 @@
                        )
    )
 
+;13 zip
+(define zip (lambda (F lst1 lst2)
 
-
-
-
+              (cond
+                [(not (= (length lst1) (length lst2))) "error, las listas deben tener igual longitud"]
+                [(or (null? lst1) (null? lst2)) empty]
+                [else (cons (F (car lst1) (car lst2) ) (zip F (cdr lst1) (cdr lst2)))]
+                )
+              )
+  )
 
 ;15 compose
 (define compose (lambda (proc1 proc2)
@@ -238,15 +244,4 @@
                    [else (carCdr-resolve elem lst)]
                    )
                  )
-  )
-
-;13 zip
-(define zip (lambda (F lst1 lst2)
-
-              (cond
-                [(not (= (length lst1) (length lst2))) "error, las listas deben tener igual longitud"]
-                [(or (null? lst1) (null? lst2)) empty]
-                [else (cons (F (car lst1) (car lst2) ) (zip F (cdr lst1) (cdr lst2)))]
-                )
-              )
   )
