@@ -61,7 +61,6 @@
   )
 
 ;5 ordenar---------------------------------------------------------------------------------------------------
-"""
 ;;encontrar el mayor en una lista estableciendo un candidato
 (define mayor (lambda (lst test)
                 (if (null? lst)
@@ -121,16 +120,6 @@
                           'error))
                   )
   )
-"""
-(define ordenar (lambda (pred lst-num)
-                  (cond
-                    [(null? (cdr lst-num)) (car lst-num)]
-                    [(pred ;mayor que o menor que
-                      (car lst-num) ;el primero de la lista
-                      (car (list-tail lst-num (round (/ (length lst-num)2)))) ; el primero de la mitad de la lista
-                      )
-                     (car (list-tail lst-num (round(/ (length lst-num)2))))]
-                    [else (list-tail lst-num (round(/ (length lst-num)2)))])))
 ;6 indice lista
 (define indice-lista (lambda (pred lst)
                      
@@ -195,7 +184,6 @@
   )
 
 ;10 filter-acum
-"""
 (define filter-acum (lambda (a b F acum filter)
 
 
@@ -209,7 +197,6 @@
                         )
                       )
   )
-"""
 ;11 list-append
  (define list-append (lambda (lst1 lst2)
                        (cond
@@ -276,20 +263,11 @@
   )
 
 ;16 carCdr
-
-(define carCdr-errvalue (lambda (elem lst)
-                          (if (zero? (contar-ocurrencias elem lst))
-                            #t
-                            #f
-                            )
-                          )
-  )
 (define carCdr-resolve (lambda (elem lst)
                          (cond
                            [(null? lst) empty]
                            [(equal? (car lst) elem) 'car]
-                           [(list? (car lst)) (if
-                                               (zero? (contar-ocurrencias elem (car lst)))
+                           [(list? (car lst)) (if (zero? (contar-ocurrencias elem (car lst)))
                                                (cons 'compose (cons (carCdr-resolve elem (cdr lst)) '(cdr)))
                                                (cons 'compose (cons (carCdr-resolve elem (car lst)) '(car)))
                                                )
@@ -299,7 +277,7 @@
                          )
   )
 (define carCdr (lambda (elem lst errvalue)
-                 (if (carCdr-errvalue elem lst)
+                 (if (zero? (contar-ocurrencias elem lst))
                      errvalue
                      (carCdr-resolve elem lst)
                    )
