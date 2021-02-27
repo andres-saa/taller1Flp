@@ -143,6 +143,28 @@
                        )
   )
 
+; punto 7
+; contar-ocurrencias : symbol list -> int
+; Proposito : Procedimiento que cuenta las ocurrencias de un elemento en un lista  
+(define contar-ocurrencias
+  (lambda (elem S-list)
+    (cond
+      [(null? S-list) 0]
+      [(list? (car S-list))
+       (if (equal? elem (car S-list))
+           (+ 1 (contar-ocurrencias elem (cdr(car S-list))) (contar-ocurrencias elem (cdr S-list)))
+           (+(contar-ocurrencias elem (car S-list)) (contar-ocurrencias elem (cdr S-list)))
+        )
+       ]
+      [(if(equal? elem (car S-list))
+          (+ 1 (contar-ocurrencias elem (cdr S-list)))
+          (contar-ocurrencias elem (cdr S-list))
+          )
+       ]
+     )
+   )
+)
+
 ;8 intercambio
   (define intercambio (lambda (elem1 elem2 lst)
 
@@ -199,6 +221,39 @@
                        )
    )
 
+;punto 12
+; InvertirLista : list -> list
+; Proposito: Procedimiento que invierte el orden de una lista 
+(define invertirLista
+  (lambda (lst)
+    (if (null? lst)
+        empty
+        (append (invertirLista (cdr lst)) (list (car lst)))
+        )
+    )          
+  )
+
+; Operate : list1 list2 -> int
+; Proposito : Procedimiento que retorna el resultado de aplicar sucesivamente las operaciones en list1 a los valores en list2
+
+(define operate
+  (lambda (lrator lrands)
+    (letrec
+        (
+         (lst1(invertirLista lrands))
+         (lst2 (invertirLista lrator) )
+     
+         (f (lambda(listOpe listnum)
+            (if (null? (cdr listOpe))
+                ((car listOpe)(cadr listnum)(car listnum))
+                ((car listOpe)(f (cdr listOpe)(cdr listnum))(car listnum)))))
+         )
+         (f lst2 lst1)      
+    )
+   )
+ )
+
+
 ;13 zip
 (define zip (lambda (F lst1 lst2)
 
@@ -222,8 +277,8 @@
 
 ;16 carCdr
 
-(define carCdr-errvalue (lambda (elem lst errvalue)
-                          (if (null? lst) ;(zero? (contar-ocurrencias elem lst))
+(define carCdr-errvalue (lambda (elem lst)
+                          (if (zero? (contar-ocurrencias elem lst))
                             #t
                             #f
                             )
@@ -234,7 +289,7 @@
                            [(null? lst) empty]
                            [(equal? (car lst) elem) 'car]
                            [(list? (car lst)) (if
-                                               #f ;(zero? contar-ocurrencias elem lst)
+                                               (zero? (contar-ocurrencias elem (car lst)))
                                                (cons 'compose (cons (carCdr-resolve elem (cdr lst)) '(cdr)))
                                                (cons 'compose (cons (carCdr-resolve elem (car lst)) '(car)))
                                                )
@@ -244,7 +299,7 @@
                          )
   )
 (define carCdr (lambda (elem lst errvalue)
-                 (if (carCdr-errvalue elem lst errvalue)
+                 (if (carCdr-errvalue elem lst)
                      errvalue
                      (carCdr-resolve elem lst)
                    )
