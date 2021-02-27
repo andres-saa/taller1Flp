@@ -175,6 +175,16 @@
 ;10 filter-acum
 """
 (define filter-acum (lambda (a b F acum filter)
+
+
+                      (cond
+                        [(and (> acum b) (or (equal? F *) (equal? F /))) 1 ]
+                        [(and (> acum b) (not (or (equal? F *) (equal? F /)))) 0 ]
+                        [(and (and (>= acum a) (<= acum b)) (filter acum))
+                         (F acum  (filter-acum a b F (+ acum 1) filter)) ]
+                        
+                        [else  (filter-acum a b F (+ 1 acum) filter) ]
+                        )
                       )
   )
 """
@@ -230,4 +240,13 @@
                  )
   )
 
+;13 zip
+(define zip (lambda (F lst1 lst2)
 
+              (cond
+                [(not (= (length lst1) (length lst2))) "error, las listas deben tener igual longitud"]
+                [(or (null? lst1) (null? lst2)) empty]
+                [else (cons (F (car lst1) (car lst2) ) (zip F (cdr lst1) (cdr lst2)))]
+                )
+              )
+  )
