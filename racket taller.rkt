@@ -223,9 +223,9 @@
 ;16 carCdr
 
 (define carCdr-errvalue (lambda (elem lst errvalue)
-                          (cond
-                            [(null? lst) #t] ; [(zero? (contar-ocurrencias elem lst)) #t]
-                            [else #f]
+                          (if (null? lst) ;(zero? (contar-ocurrencias elem lst))
+                            #t
+                            #f
                             )
                           )
   )
@@ -244,9 +244,9 @@
                          )
   )
 (define carCdr (lambda (elem lst errvalue)
-                 (cond
-                   [(carCdr-errvalue elem lst errvalue) errvalue]
-                   [else (carCdr-resolve elem lst)]
+                 (if (carCdr-errvalue elem lst errvalue)
+                     errvalue
+                     (carCdr-resolve elem lst)
                    )
                  )
   )
