@@ -2,7 +2,9 @@
 
 
 
-;1 sublistas
+;1 sublistas : list -> int
+; Proposito : recibe una lista y retorna el nuemro de sublistas dentro de la misma
+
 (define sublistas (lambda (lst)
                     (if (null? lst )
                         0
@@ -16,6 +18,9 @@
 
 
 ;2 filtro
+;filtro : pred list -> list
+;proposito: recibe un predicado y una lista y retorna una lista con los elementos de la lista que cumplan
+;;con el predicado pred
  
 (define filtro
   (lambda (pred lst)
@@ -30,7 +35,11 @@
 )
 
 
-;3 inversion listas
+;3 inversion-listas---------------------------------------------------------------------------------------
+
+;aux
+;invertir-par: list -> list
+;proposito: recibe una lista con dos elementos e invierte su posicion en la lista
 
 (define invertir-par (lambda (lst-par)
 
@@ -41,6 +50,9 @@
                        )
   )
 
+;inversion-listas: list -> list
+;proposito: recibe una lista cuyos elemelemtos son a su vez listas de dos elementos e invierte la posicion
+;de lso elementos dentro de cada sublista interior haciendo uso de la funcion invertir-par
 
 (define inversion-listas (lambda (lst)
                            (if (null? lst)
@@ -51,7 +63,9 @@
   )
 
 
-;4 situar en lista
+;4 situar-en-lista: list int elem -> list
+;proposito: recibe una lista, una posicion (int) y un elemento y devuelve la lista con el elemento elem en la posicion
+;pos (elimina el elemento que s encontraba anteriormente en dica posicion)
 (define situar-en-lista (lambda (lst pos elem)
                           (if (= pos 0)
                               (cons elem (cdr lst))
@@ -60,28 +74,35 @@
                           )
   )
 
-;5 ordenar---------------------------------------------------------------------------------------------------
-;;encontrar el mayor en una lista estableciendo un candidato
-(define mayor (lambda (lst test)
+;5 ordenar------------------------------------------------------------------------------------------------------------
+
+;aux
+;mayor: list int -> int
+;proposito: encontrar el mayor en una lista estableciendo un candidato
+(define mayor (lambda (lst candidato)
                 (if (null? lst)
-                    test
-                    (if (> (car lst) test)
+                    candidato
+                    (if (> (car lst) candidato)
                         (mayor (cdr lst) (car lst))
-                        (mayor (cdr lst) test)
+                        (mayor (cdr lst) candidato)
                         )
                     )
                 )
   )
 
- 
-;;encontrar el mayor en una lista estableciendo como candidato el primero de la lista
+;aux
+;mayo-listar: list-> int
+;proposito: encontrar el mayor en una lista haciendo uso de la funcion mayor
+;y estableciendo como candidato el primero de la lista
+
 (define mayor-lista (lambda (lst) 
                       (mayor lst (car lst))
                       )
   )
 
-
-;;quitar un elemento de una lista
+;aux
+;quitar elemento : list elem -> list
+;proposito: quitar un elemento de una lista
 (define quitar-elemento (lambda (lst elem)
                           (if (null? lst)
                                '()
@@ -95,7 +116,10 @@
  
 
 
-;;ordena la lista de mayor a menor
+;aux
+;ordenar-mayor: list -> list
+;proposito: ordenar una lista de menor a mayor, tomando el mayor de la lista, el mayor del resto de la lista,
+;el mayor del resto del resto de la lista, etc
 (define ordenar-mayor (lambda (lst)
                         (if (null? lst)
                             empty
@@ -104,14 +128,18 @@
                         )
   )
 
-;;invertir el oorden de una lista
+;aux
+;ordenar-mayor: list -> list
+;proposito: invertir el orden de una lista
 (define invertir-lista (lambda (lst)
                          (if (null? lst)
                              empty
                               (append (invertir-lista (cdr lst)) (list (car lst)))
                               )))
 
-;;ordena de menor a mayor o de mayor a menor segun el simbolo que se le pase
+;ordenar: simb list -> list
+;proposito: ordenar una lista de menor a mayor, o de mayor a menor segun el simbolo que se le pase
+;sienso < para ordenar de menor a mayor y > para ordenar de mayor a menor
 (define ordenar (lambda (simb lst)
                   (if (equal? simb >)
                       (ordenar-mayor lst)
@@ -120,7 +148,11 @@
                           'error))
                   )
   )
-;6 indice lista
+
+
+;6
+;indice-lista: pred list -> int
+;proposito: retorna el indice de el primer elemento de la lista que cumpla con el predicado pred
 (define indice-lista (lambda (pred lst)
                      
                        (cond
@@ -209,17 +241,6 @@
    )
 
 ;punto 12
-; InvertirLista : list -> list
-; Proposito: Procedimiento que invierte el orden de una lista 
-(define invertirLista
-  (lambda (lst)
-    (if (null? lst)
-        empty
-        (append (invertirLista (cdr lst)) (list (car lst)))
-        )
-    )          
-  )
-
 ; Operate : list1 list2 -> int
 ; Proposito : Procedimiento que retorna el resultado de aplicar sucesivamente las operaciones en list1 a los valores en list2
 
@@ -227,8 +248,8 @@
   (lambda (lrator lrands)
     (letrec
         (
-         (lst1(invertirLista lrands))
-         (lst2 (invertirLista lrator) )
+         (lst1(invertir-lista lrands))
+         (lst2 (invertir-lista lrator) )
      
          (f (lambda(listOpe listnum)
             (if (null? (cdr listOpe))
