@@ -19,7 +19,9 @@
                         )
                     )
   )
-
+; Pruebas:
+;(sublistas '(4 5 8 (1 2) 8 (7 8 9 (2 4)))) -> 3
+;(sublistas '(((a b) c) (1 (2 (3 4)) (d e f (g))) 5 ((6 (7) 8) 9))) -> 10
 
 ;2 filtro
 ;filtro : pred list -> list
@@ -37,7 +39,10 @@
      )
    )
 )
-
+; Pruebas:
+;(filtro number? '((1 2 a (b)) 3 4 c 5 d)) -> '(3 4 5)
+;(filtro symbol? '((1 2 a (b)) 3 4 c 5 d)) -> '(c d)
+;(filtro list? '((1 2 a (b)) 3 4 c 5 d))   -> '((1 2 a (b)))
 
 ;3 inversion-listas---------------------------------------------------------------------------------------
 
@@ -66,6 +71,13 @@
                            )
   )
 
+; Pruebas:
+;(inversion-listas '((2 1) (4 3) (b a) (d c)))
+;-> '((1 2) (3 4) (a b) (c d))
+
+;(inversion-listas '((es Racket) (genial muy) (21 20)))
+;-> '((Racket es) (muy genial) (20 21))
+
 
 ;4 situar-en-lista: list int elem -> list
 ;proposito: recibe una lista, una posicion (int) y un elemento y devuelve la lista con el elemento elem en la posicion
@@ -77,6 +89,17 @@
                               )
                           )
   )
+
+; Pruebas:
+
+;(situar-en-lista '(1 2 3 4 5 6 7 8 9) 0 'Comienzo)
+;-> '(Comienzo 2 3 4 5 6 7 8 9)
+
+;(situar-en-lista '(1 2 3 4 5 6 7 8 9) 4 'Mitad)
+;-> '(1 2 3 4 Mitad 6 7 8 9)
+
+;(situar-en-lista '(1 2 3 4 5 6 7 8 9) 8 'Final)
+;-> '(1 2 3 4 5 6 7 8 Final)
 
 ;5 ordenar------------------------------------------------------------------------------------------------------------
 
@@ -153,6 +176,14 @@
                   )
   )
 
+; Pruebas:
+
+;(ordenar < '(58 41 67 54 32 10))
+;-> '(10 32 41 54 58 67)
+
+;(ordenar > '(58 41 67 54 32 10))
+;-> '(67 58 54 41 32 10)
+
 
 ;6
 ;indice-lista: pred list -> int
@@ -167,6 +198,13 @@
                          )
                        )
   )
+; Pruebas:
+
+;(indice-lista (lambda (x) (eqv? x 'd)) '(a b c d e f g))
+;-> 3
+
+;(indice-lista (lambda (x) (> x 3)) '(0 1 2 3 4 5 6))
+;-> 4
 
 ; 7
 ; contar-ocurrencias : symbol list -> int
@@ -189,7 +227,16 @@
      )
    )
 )
+; Pruebas:
 
+;(contar-ocurrencias 'x '((f x) y (((x z) x))))
+;-> 3
+
+;(contar-ocurrencias 'x '((f x) y (((x z) () x))))
+;-> 3
+
+;(contar-ocurrencias 'w '((f x) y (((x z) x))))
+;-> 0
 
 ; 8
 ; intercambio : elem elem list -> list
@@ -207,7 +254,16 @@
                           )
                         )
     )
+; Prueba:
 
+;(intercambio 'a 'd '(a b c d))
+;-> '(d b c a)
+
+;(intercambio 'a 'd '(a d () c d))
+;-> '(d a () c a)
+
+;(intercambio 'x 'y '((x) y (z (x))))
+;-> '((y) x (z (y)))
 
 ;9 producto------------------------------------------------------------------------------------------------------------------
 
@@ -236,9 +292,19 @@
                        (append (producto-aux lst1 lst2) (producto (cdr lst1) lst2)))
                    )
   )
+;Pruebas:
+;(producto '(a b c) '(x y))
+;-> '((a x) (a y) (b x) (b y) (c x) (c y))
 
+;(producto '(1 2 3) '(4 5))
+;-> '((1 4) (1 5) (2 4) (2 5) (3 4) (3 5))
 
 ;10 filter-acum
+;filter-acum: int int func int func  -> int
+;Propósito:
+;Procedimiento que aplica una función binaria “F” al intervalo [a, b]
+;que cumple con un predicado “filter” y  acumula los resultados en un valor inicial “acum”,
+;y después retorna el "acum".
 (define filter-acum (lambda (a b F acum filter)
 
 
@@ -252,6 +318,12 @@
                         )
                       )
   )
+;Pruebas:
+;(filter-acum 1 10 + 0 odd?)
+;-> 25
+
+;(filter-acum 1 10 + 0 even?)
+;-> 30
 
 ; 11
 ; list-append : list list -> list
@@ -267,6 +339,12 @@
                          ) 
                        )
    )
+; Pruebas:
+;(list-append '(1 2 3) '(4 5))
+;-> '(1 2 3 4 5)
+
+;(list-append '(a f 3) '(5 l o d))
+;-> '(a f 3 5 l o d)
 
 ; 12
 ; Operate : list1 list2 -> int
@@ -289,6 +367,12 @@
    )
  )
 
+;Pruebas:
+;(operate (list + * + - *) '(1 2 8 4 11 6))
+;-> 102
+
+;(operate (list *) '(4 5))
+;-> 20
 
 ; 13
 ; zip: procedure list list -> list
@@ -305,6 +389,13 @@
               )
   )
 
+;Pruebas:
+;(zip + '(1 4) '(6 2))
+;-> '(7 6)
+
+;(zip * '(11 5 6) '(10 9 8))
+;-> '(110 45 48)
+
 ; 14
 ; path: int list -> list
 ; Proposito: procedimiento que busca el camino del elemento n dentro del arbol binario de busqueda BST
@@ -320,7 +411,7 @@
 
 (define lst1 '(14 (7 () (12 () ()))(26 (20 (17 () ())())(31 () ()))))
 (define lst2 '(8 (3 (1 () ()) (6 (4 () ()) (7 () ()))) (10 () (14 (13 () ()) ()))))
-;pruebas
+;Pruebas:
 ;(path 17 lst1) -> (right left left)
 ;(path 12 lst1) -> (left right)
 ;(path 13 lst2) -> (right right left)
@@ -335,6 +426,20 @@
 
                   )
   )
+
+;Pruebas:
+;((compose car cdr) '(a b c d))
+;-> b
+
+;((compose number? car) '(a b c d))
+;-> #f
+
+;((compose boolean? even?) 5)
+;-> #t
+
+;((compose (compose (compose (compose (compose (compose (compose car car) car) cdr) car) car) cdr) cdr) '(whale (cat) ((mouse ((dog) snake) fish) cow) (dog fish)))
+;-> 'dog
+
 
 ;16 carCdr
 (define carCdr-resolve (lambda (elem lst)
@@ -357,3 +462,30 @@
                    )
                  )
   )
+
+;Pruebas:
+;(carCdr 'a '() 'fail)
+;-> 'fail
+
+;(carCdr 'a '(a b c) 'fail)
+;-> car
+
+;(carCdr 'dog '(whale (cat) ((mouse ((dog) snake) fish) cow) (dog fish)) 'fail)
+;-> (compose (compose (compose (compose (compose (compose (compose car car) car) cdr) car) car) cdr) cdr)
+
+
+;⢀⡴⠑⡄⠀⠀⠀⠀⠀⠀⠀⣀⣀⣤⣤⣤⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ ⠀
+;⠸⡇⠀⠿⡀⠀⠀⠀⣀⡴⢿⣿⣿⣿⣿⣿⣿⣿⣷⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀ ⠀
+;⠀⠀⠀⠀⠑⢄⣠⠾⠁⣀⣄⡈⠙⣿⣿⣿⣿⣿⣿⣿⣿⣆⠀⠀⠀⠀⠀⠀⠀⠀ ⠀
+;⠀⠀⠀⠀⢀⡀⠁⠀⠀⠈⠙⠛⠂⠈⣿⣿⣿⣿⣿⠿⡿⢿⣆⠀⠀⠀⠀⠀⠀⠀ ⠀
+;⠀⠀⠀⢀⡾⣁⣀⠀⠴⠂⠙⣗⡀⠀⢻⣿⣿⠭⢤⣴⣦⣤⣹⠀⠀⠀⢀⢴⣶⣆ ⠀
+;⠀⠀⢀⣾⣿⣿⣿⣷⣮⣽⣾⣿⣥⣴⣿⣿⡿⢂⠔⢚⡿⢿⣿⣦⣴⣾⠁⠸⣼⡿    
+;⠀⢀⡞⠁⠙⠻⠿⠟⠉⠀⠛⢹⣿⣿⣿⣿⣿⣌⢤⣼⣿⣾⣿⡟⠉⠀⠀⠀⠀⠀ ⠀
+;⠀⣾⣷⣶⠇⠀⠀⣤⣄⣀⡀⠈⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀ ⠀
+;⠀⠉⠈⠉⠀⠀⢦⡈⢻⣿⣿⣿⣶⣶⣶⣶⣤⣽⡹⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀ ⠀
+;⠀⠀⠀⠀⠀⠀⠀⠉⠲⣽⡻⢿⣿⣿⣿⣿⣿⣿⣷⣜⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀ ⠀
+;⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣷⣶⣮⣭⣽⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀ ⠀
+;⠀⠀⠀⠀⠀⠀⣀⣀⣈⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠇⠀⠀⠀⠀⠀⠀⠀ ⠀
+;⠀⠀⠀⠀⠀⠀⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠃⠀⠀⠀⠀⠀⠀⠀⠀ ⠀
+;⠀⠀⠀⠀⠀⠀⠀⠹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀ ⠀
+;⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠛⠻⠿⠿⠿⠿⠛⠉⠀⠀⠀⠀           ⠀
