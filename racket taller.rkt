@@ -1,3 +1,7 @@
+;Andres Felipe Arrechea Saa - 1780023
+;Nicolas Jaramillo Mayor - 1840558
+;Luis felipe valencia - 1824494
+
 #lang eopl
 
 
@@ -164,7 +168,7 @@
                        )
   )
 
-; punto 7
+; 7
 ; contar-ocurrencias : symbol list -> int
 ; Proposito : Procedimiento que cuenta las ocurrencias de un elemento en un lista  
 (define contar-ocurrencias
@@ -186,7 +190,12 @@
    )
 )
 
-;8 intercambio
+
+; 8
+; intercambio : elem elem list -> list
+; Proposito : recibe dos elementos elem1 y elem2 y una lista y retorna una nueva lista con los elementos intercambiados
+; elem1 por elem2 y elem2 por elem1
+
   (define intercambio (lambda (elem1 elem2 lst)
 
                         (cond
@@ -200,20 +209,34 @@
     )
 
 
-;9 producto
-(define producto-aux (lambda (lst1 lst2)
+;9 producto------------------------------------------------------------------------------------------------------------------
+
+; aux
+; producto-aux : list list -> list
+; Proposito : retorna una lista cuyos elementos son pares cuyo primer elemento es el primer elemento de la lista 1
+; pero el segundo elemento del par es un elemento de la lista 2 (asi hasta qeu cada elemento de la lista 2 este emparejado
+; con el primer elemento de la lista 1)
+
+( define producto-aux (lambda (lst1 lst2)
                    (if (null? lst2)
                        empty
                        (cons (append (list (car lst1)) (list (car lst2)) ) (producto-aux lst1 (cdr lst2)))
                        )
                    )
   )
+
+
+; producto: list list -> list
+; Proposito : retorna una lista de pares que representan todas las posibles combinaciones de 2 elementos
+; cuyo primer elemento pertenese a la lista 1 y el segundo elemento a la lista 2
+
 (define producto (lambda (lst1 lst2)
                    (if (null? lst1)
                        empty
                        (append (producto-aux lst1 lst2) (producto (cdr lst1) lst2)))
                    )
   )
+
 
 ;10 filter-acum
 (define filter-acum (lambda (a b F acum filter)
@@ -229,7 +252,12 @@
                         )
                       )
   )
-;11 list-append
+
+; 11
+; list-append : list list -> list
+; Proposito : fuciona los elementos de dos listas en una sola cuyos elementos son
+; los elementos de la lista 1 seguidos de los elementos de la lista 2
+
  (define list-append (lambda (lst1 lst2)
                        (cond
                          [(null? lst1) lst2]
@@ -240,7 +268,7 @@
                        )
    )
 
-;punto 12
+; 12
 ; Operate : list1 list2 -> int
 ; Proposito : Procedimiento que retorna el resultado de aplicar sucesivamente las operaciones en list1 a los valores en list2
 
@@ -262,7 +290,11 @@
  )
 
 
-;13 zip
+; 13
+; zip: procedure list list -> list
+; Proposito : retorna una lista cuyos elementos son el resultado de aplicar el procedimiento F pasandole
+; como parametros los elementos de posiciones iguales dentro de cada lista, por lo que las lista a trabajar
+; deben tener igual longitud
 (define zip (lambda (F lst1 lst2)
 
               (cond
@@ -272,7 +304,8 @@
                 )
               )
   )
-; pregunta 14
+
+; 14
 ; path: int list -> list
 ; Proposito: procedimiento que busca el camino del elemento n dentro del arbol binario de busqueda BST
 (define path
